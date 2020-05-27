@@ -22,7 +22,7 @@ DOCKER_EXTRA_ARGS ?=
 DOCKER_BUILDKIT ?= 1
 
 # Assign default docker user
-DOCKER_USER ?= tprasadtp
+DOCKER_USER ?= edenhaus
 
 # Set this to true if its a fork
 UPSTREAM_PRESENT ?= false
@@ -37,7 +37,7 @@ BUILDX_PUSH      ?= 0
 BUILDX_PLATFORMS ?= linux/amd64,linux/arm64,linux/arm/v7
 
 # Builder metadata
-IMAGE_VENDOR  ?= Prasad Tengse<tprasadtp@users.noreply.github.com>
+IMAGE_VENDOR  ?= Robert Resch<edenhaus@users.noreply.github.com>
 
 # We need to quote this to avoid issues with command
 IMAGE_BUILD_DATE := $(shell date --rfc-3339=seconds)
