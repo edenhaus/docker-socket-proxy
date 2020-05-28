@@ -1,7 +1,7 @@
 FROM haproxy:2.1-alpine
 
 RUN set -x \
-    && apk add --no-cache socat
+    && apk add --no-cache socat=1.7.3.3-r1
 
 EXPOSE 2375
 ENV ALLOW_RESTARTS=0 \
