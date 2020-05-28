@@ -1,7 +1,6 @@
 # Docker Socket Proxy
 
 [![build](https://github.com/edenhaus/docker-socket-proxy/workflows/build/badge.svg)](https://github.com/edenhaus/docker-socket-proxy/actions?query=workflow%3Abuild)
-[![labels](https://github.com/edenhaus/docker-socket-proxy/workflows/labels/badge.svg)](https://github.com/edenhaus/docker-socket-proxy/actions?query=workflow%3Alabels)
 [![Docker Pulls](https://img.shields.io/docker/pulls/edenhaus/docker-socket-proxy)](https://hub.docker.com/r/edenhaus/docker-socket-proxy/)
 ![Analytics](https://ga-beacon.prasadt.com/UA-101760811-3/github/docker-socket-proxy?pink&useReferer)
 
