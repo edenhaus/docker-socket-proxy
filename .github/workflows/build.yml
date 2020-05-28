@@ -37,7 +37,7 @@ jobs:
         run: make smoke-test
         env:
           DOCKER_ENDPOINT: "127.0.0.1:12375"
-# Build docker images
+  # Build docker images
   docker:
     needs: lint
     runs-on: ubuntu-latest
@@ -74,21 +74,21 @@ jobs:
       # - name: Docker Login to Registry (GitHub)
       #   run: echo "$DOCKER_PASSWORD" | docker login docker.pkg.github.com -u "$DOCKER_USERNAME" --password-stdin
       #   env:
-      #     DOCKER_USERNAME: tprasadtp
+      #     DOCKER_USERNAME: edenhaus
       #     DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-      #   if: github.event_name	== 'push' || ( github.event_name == 'pull' &&  github.actor	== 'tprasadtp' )
+      #   if: github.event_name	== 'push' || ( github.event_name == 'pull' &&  github.actor	== 'edenhaus' )
 
       - name: Docker Login to Registry (DockerHub)
         run: echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
         env:
-          DOCKER_USERNAME: tprasadtp
+          DOCKER_USERNAME: edenhaus
           DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
         if: github.event_name	== 'push'
 
       - name: Docker Build [With Push]
         run: |
-            make debug-docker-vars
-            make docker
+          make debug-docker-vars
+          make docker
         env:
           BUILDX_PUSH: 1
           BUILDX_ENABLE: 1
@@ -97,8 +97,8 @@ jobs:
       # No Push
       - name: Docker Build [Skip Push]
         run: |
-            make debug-docker-vars
-            make docker
+          make debug-docker-vars
+          make docker
         env:
           BUILDX_PUSH: 0
           BUILDX_ENABLE: 1
