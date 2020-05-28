@@ -3,6 +3,7 @@ FROM haproxy:2.1-alpine
 RUN set -x \
     && apk add --no-cache socat
 
+EXPOSE 2375
 ENV ALLOW_RESTARTS=0 \
     AUTH=0 \
     BUILD=0 \
@@ -49,13 +50,10 @@ ENV ALLOW_RESTARTS=0 \
     VOLUMES_DELETE=0 \
     VOLUMES_PRUNE=0 \
     VOLUMES=0 \
-    DOCKER_BACKEND=/var/run/docker.sock \
-    PORT=2375 \
-    PROXIED-SOCKET=/var/run/proxied-docker.sock
+    DOCKER_BACKEND=/var/run/docker.sock 
 
-EXPOSE ${PORT}
 COPY haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
-
 COPY docker-entrypoint.override.sh /docker-entrypoint.override.sh
+
 ENTRYPOINT [ "/docker-entrypoint.override.sh" ]
 CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]

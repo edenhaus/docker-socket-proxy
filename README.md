@@ -1,11 +1,11 @@
 # Docker Socket Proxy
 
-[![build](https://github.com/tprasadtp/docker-socket-proxy/workflows/build/badge.svg)](https://github.com/tprasadtp/docker-socket-proxy/actions?query=workflow%3Abuild)
-[![labels](https://github.com/tprasadtp/docker-socket-proxy/workflows/labels/badge.svg)](https://github.com/tprasadtp/docker-socket-proxy/actions?query=workflow%3Alabels)
-[![Docker Pulls](https://img.shields.io/docker/pulls/tprasadtp/docker-socket-proxy)](https://hub.docker.com/r/tprasadtp/docker-socket-proxy/)
+[![build](https://github.com/edenhaus/docker-socket-proxy/workflows/build/badge.svg)](https://github.com/edenhaus/docker-socket-proxy/actions?query=workflow%3Abuild)
+[![labels](https://github.com/edenhaus/docker-socket-proxy/workflows/labels/badge.svg)](https://github.com/edenhaus/docker-socket-proxy/actions?query=workflow%3Alabels)
+[![Docker Pulls](https://img.shields.io/docker/pulls/edenhaus/docker-socket-proxy)](https://hub.docker.com/r/edenhaus/docker-socket-proxy/)
 ![Analytics](https://ga-beacon.prasadt.com/UA-101760811-3/github/docker-socket-proxy?pink&useReferer)
 
-> This fork provides ARM/ARM64 images, provider finer control over `POST` and `DELETE` endpoints and adds some tests.
+> This fork provides the possibility to proxy the unix socket too.
 
 ## What?
 
@@ -20,12 +20,14 @@ those services should not do.
 
 ## How?
 
-We use the official [Alpine][]-based [HAProxy][] image with a small
+We use the official [alpine][]-based [haproxy][] image with a small
 configuration file.
 
 It blocks access to the Docker socket API according to the environment
 variables you set. It returns a `HTTP 403 Forbidden` status for those dangerous
 requests that should never happen.
+
+To redirect the unix socket to TCP, we use socat.
 
 ## Security recommendations
 
@@ -48,12 +50,13 @@ requests that should never happen.
             -d --privileged \
             --name dockerproxy \
             -v /var/run/docker.sock:/var/run/docker.sock \
+            -v /tmp/test/:/proxy/ \
             -p 127.0.0.1:2375:2375 \
-            tecnativa/docker-socket-proxy
+            edenhaus/docker-socket-proxy
 
 2.  Connect your local docker client to that socket:
 
-        $ export DOCKER_HOST=tcp://localhost
+        $ export DOCKER_HOST=unix:///tmp/test/docker.sock
 
 3.  You can see the docker version:
 
@@ -126,7 +129,7 @@ not so extremely critical but can expose some information that your service
 does not need.
 
 | GET            | POST                  | DELETE              |
-|:---------------|:----------------------|:--------------------|
+| :------------- | :-------------------- | :------------------ |
 | `BUILD`        | `ALLOW_RESTARTS`      | `CONTAINERS_DELETE` |
 | `COMMIT`       | `CONTAINERS_PRUNE`    | `IMAGES_DELETE`     |
 | `CONFIGS`      | `CONTAINERS_CREATE`   | `NETWORKS_DELETE`   |
@@ -153,8 +156,8 @@ does not need.
 ## Logging
 
 You can set the logging level or severity level of the messages to be logged with the
- environment variable `LOG_LEVEL`. Defaul value is info. Possible values are: debug,
- info, notice, warning, err, crit, alert and emerg.
+environment variable `LOG_LEVEL`. Defaul value is info. Possible values are: debug,
+info, notice, warning, err, crit, alert and emerg.
 
 ## Supported API versions
 
@@ -168,6 +171,6 @@ You can set the logging level or severity level of the messages to be logged wit
 
 Please send any feedback (issues, questions) to the [issue tracker][].
 
-[Alpine]: https://alpinelinux.org/
-[HAProxy]: http://www.haproxy.org/
-[issue tracker]: https://github.com/Tecnativa/docker-socket-proxy/issues
+[alpine]: https://alpinelinux.org/
+[haproxy]: http://www.haproxy.org/
+[issue tracker]: https://github.com/edenhaus/docker-socket-proxy/issues
